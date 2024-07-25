@@ -20,33 +20,56 @@ import {
 
 export default function BoardWriteUI(props) {
         return (
-            <EmotionWrap>
+            <EmotionWrap isShadow={true}>
                 <EmotionContainer>
-                    <TitleSection>게시물 등록</TitleSection>
+                    <TitleSection>게시물 {props.isEdit ? '수정' : '등록'}</TitleSection>
                     <ContentSection>
                         <ColumnBox>
                             <RowBox>
                                 <CTLabel id='writer'>작성자</CTLabel>
-                                <CTInput htmlfor='writer' type='text' placeholder='이름을 적어주세요.' onChange={(e) => props.onChangeValue('writer', e)} />
+                                <CTInput
+                                    htmlfor='writer'
+                                    type='text'
+                                    placeholder='이름을 적어주세요.'
+                                    onChange={(e) => props.onChangeValue('writer', e)}
+                                    defaultValue={props.data?.writer}
+                                />
                                 {props.values.writer.error && <ValidErrMsg>{props.values.writer.error}</ValidErrMsg>}
                             </RowBox>
                             <RowBox>
                                 <CTLabel id='password'>비밀번호</CTLabel>
-                                <CTInput htmlfor='password' type='text' placeholder='비밀번호를 입력해주세요.' onChange={(e) => props.onChangeValue('password', e)} />
+                                <CTInput
+                                    htmlfor='password'
+                                    type='text'
+                                    placeholder='비밀번호를 입력해주세요.'
+                                    onChange={(e) => props.onChangeValue('password', e)}
+                                />
                                 {props.values.password.error && <ValidErrMsg>{props.values.password.error}</ValidErrMsg>}
                             </RowBox>
                         </ColumnBox>
                         <ColumnBox>
                             <RowBox>
                                 <CTLabel id='title'>제목</CTLabel>
-                                <CTInput htmlfor='title' type='text' placeholder='제목을 작성해주세요.' onChange={(e) => props.onChangeValue('title', e)} />
+                                <CTInput
+                                    htmlfor='title'
+                                    type='text'
+                                    placeholder='제목을 작성해주세요.'
+                                    onChange={(e) => props.onChangeValue('title', e)}
+                                    defaultValue={props.data?.title}
+                                />
                                 {props.values.title.error && <ValidErrMsg>{props.values.title.error}</ValidErrMsg>}
                             </RowBox>
                         </ColumnBox>
                         <ColumnBox>
                             <RowBox>
                                 <CTLabel id='description'>내용</CTLabel>
-                                <CTTextArea htmlfor='description' type='text' placeholder='내용을 작성해주세요.' onChange={(e) => props.onChangeValue('description', e)} />
+                                <CTTextArea
+                                    htmlfor='description'
+                                    type='text'
+                                    placeholder='내용을 작성해주세요.'
+                                    onChange={(e) => props.onChangeValue('description', e)}
+                                    defaultValue={props.data?.contents}
+                                />
                                 {props.values.description.error && <ValidErrMsg>{props.values.description.error}</ValidErrMsg>}
                             </RowBox>
                         </ColumnBox>
@@ -102,7 +125,7 @@ export default function BoardWriteUI(props) {
                             </RowBox>
                         </ColumnBox>
                         <ButtonSection>
-                            <CTButtonFilled type='button' color='var(--black)' onClick={props.onUploadBoard} isActive={props.isActive}>등록하기</CTButtonFilled>
+                            <CTButtonFilled type='button' color='var(--black)' onClick={() => props.onUploadBoard(props.isEdit)} isActive={props.isActive}>{props.isEdit ? '수정' : '등록'}하기</CTButtonFilled>
                         </ButtonSection>
                     </ContentSection>
                 </EmotionContainer>

@@ -1,4 +1,4 @@
-import {EmotionContainer, EmotionWrap} from "@/styles/emotions/boardNew";
+import {EmotionContainer, EmotionWrap} from "@/src/components/units/board/write/BoardWriter.styles";
 import {
     Avatar,
     AvatarWrapper,
@@ -13,34 +13,38 @@ import {
     Title,
     Writer
 } from "@/src/components/units/board/detail/BoardDetail.styles";
+import BoardComment from "@/src/components/units/board/comment/BoardComment.container";
 
 export default function BoardDetailUI(props) {
     return (
-        <EmotionWrap>
-            <EmotionContainer>
-                <CardWrapper>
-                    <Header>
-                        <AvatarWrapper>
-                            <Avatar src="/images/avatar.png" />
-                            <Info>
-                                <Writer>{props?.data?.fetchBoard?.writer}</Writer>
-                                <CreatedAt>
-                                    {props?.data?.fetchBoard?.createdAt}
-                                </CreatedAt>
-                            </Info>
-                        </AvatarWrapper>
-                    </Header>
-                    <Body>
-                        <Title>{props?.data?.fetchBoard?.title}</Title>
-                        <Contents>{props?.data?.fetchBoard?.contents}</Contents>
-                    </Body>
-                </CardWrapper>
+        <>
+            <EmotionWrap isShadow={true}>
+                <EmotionContainer>
+                    <CardWrapper>
+                        <Header>
+                            <AvatarWrapper>
+                                <Avatar src="/images/avatar.png" />
+                                <Info>
+                                    <Writer>{props?.data?.fetchBoard?.writer}</Writer>
+                                    <CreatedAt>
+                                        {props?.data?.fetchBoard?.createdAt}
+                                    </CreatedAt>
+                                </Info>
+                            </AvatarWrapper>
+                        </Header>
+                        <Body>
+                            <Title>{props?.data?.fetchBoard?.title}</Title>
+                            <Contents>{props?.data?.fetchBoard?.contents}</Contents>
+                        </Body>
+                    </CardWrapper>
+                </EmotionContainer>
+            </EmotionWrap>
+            <EmotionWrap>
                 <BottomWrapper>
-                    <Button>목록으로</Button>
-                    <Button>수정하기</Button>
-                    <Button>삭제하기</Button>
+                    <Button onClick={props.onMoveToBoardList}>목록으로</Button>
+                    <Button onClick={props.onMoveToBoardEdit}>수정하기</Button>
                 </BottomWrapper>
-            </EmotionContainer>
-        </EmotionWrap>
+            </EmotionWrap>
+        </>
     );
 }

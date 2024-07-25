@@ -22,7 +22,7 @@ button {
 em {
     font-style: normal;
 }
-div, span, em, p {
+div, span, em, p, button, input, textarea {
     font-size: 1.6rem;
 }
 ul>li,ol>li {
@@ -31,5 +31,7 @@ ul>li,ol>li {
 button {
     background: none;
     cursor: pointer;
-    font-size: 1.6rem;
+}
+input, textarea {
+    border: none;
 }

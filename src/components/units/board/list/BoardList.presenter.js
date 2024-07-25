@@ -82,8 +82,8 @@ export default function BoardListUI(props) {
                         props.boards?.map(list =>
                             <BoardTr key={list._id} onClick={() => props.onMoveToDetailPage(list._id)}>
                                 <BoardTd>{list._id.slice(-6)}</BoardTd>
-                                <BoardTd>{list.writer}</BoardTd>
                                 <BoardTd>{list.title}</BoardTd>
+                                <BoardTd>{list.writer}</BoardTd>
                                 <BoardTd>
                                     {list.createdAt}
                                     {/*2024.07.01*/}

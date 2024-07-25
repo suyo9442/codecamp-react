@@ -58,7 +58,6 @@ export const BottomWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  padding: 80px;
 `;
 
 export const Button = styled.button`

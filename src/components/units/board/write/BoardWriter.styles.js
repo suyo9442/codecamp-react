@@ -4,11 +4,10 @@ export const EmotionWrap = styled.div`
   //border: 1px solid red;
   width: 1200px;
   margin: 100px auto;
-  padding: 0 86px;
-  box-shadow: 0 0 10px #CBCBCB;
+  box-shadow: ${props => props.isShadow ? '0 0 10px #CBCBCB' : 'none'};
 `
 export const EmotionContainer = styled.div`
-  //border: 1px solid blue;
+  padding: 0 86px;
 `
 export const TitleSection = styled.div`
   padding: 56px 0;
