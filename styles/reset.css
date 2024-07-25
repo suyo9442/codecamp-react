@@ -4,6 +4,7 @@
     --disable: #F44336;
     --grey-100: #BDBDBD;
     --grey-200: #4F4F4F;
+    --grey-300: #F2F2F2;
     --yellow-100: #FFD600;
 }
 * {
@@ -20,4 +21,15 @@ button {
 }
 em {
     font-style: normal;
+}
+div, span, em, p {
+    font-size: 1.6rem;
+}
+ul>li,ol>li {
+    list-style: none;
+}
+button {
+    background: none;
+    cursor: pointer;
+    font-size: 1.6rem;
 }
