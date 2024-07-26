@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
+import {ICTButtonFilledProps} from "@/src/components/units/board/write/BoardWrite.types";
 
-export const EmotionWrap = styled.div`
+export const EmotionWrap = styled.div<{isShadow?: boolean}>`
   //border: 1px solid red;
   width: 1200px;
   margin: 100px auto;
@@ -77,7 +78,7 @@ export const CTTextArea = styled.textarea`
     color: var(--grey-100);
   }
 `
-export const CTButtonFilled = styled.button`
+export const CTButtonFilled = styled.button<ICTButtonFilledProps>`
     width: ${props => props.width || 'auto'};
     cursor: pointer;
     color: ${props => props.color || 'var(--black)'};

@@ -11,6 +11,7 @@ export const Title = styled.div`
   border-top: 1px solid var(--grey-100);
 `
 export const InputSec = styled.div`
+  width: 100%;
   padding: 24px 0;
 `
 export const Stars = styled.div`
@@ -41,8 +42,8 @@ export const TextLen = styled.button`
 `
 export const SubmitBtn = styled.button`
   height: 52px;
-  background: var(--black);
-  color: var(--white);
+  background: ${props => props.isEdit ? 'var(--yellow-100)' : 'var(--black)'};
+  color: ${props => props.isEdit ? 'var(--black)' : 'var(--white)'};
   padding: 14px 16px;
   position: absolute;
   right: 0;

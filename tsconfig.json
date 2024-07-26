@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "es5", // 어떤 ECMAScript 버전으로 변환할지
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    },
+    "lib": [ // 어떤 API를 인식하고 타입 검사를 할지
+      "dom", // DOM API
+      "dom.iterable", // DOM 객체에서의 이터레이션
+      "esnext" // 최신 ECMAScript 기능
+    ],
+    "allowJs": true, // .js 파일도 컴파일 허용할지
+    "skipLibCheck": true, // 라이브러리 타입 검사
+    "strict": true, // 엄격한 타입 검사
+    "forceConsistentCasingInFileNames": true, // 파일 이름의 대소문자 일관성
+    "noEmit": true, // 파일을 컴파일하되 결과 파일을 생성할지
+    "incremental": true, // 이전 컴파일 결과 캐싱 (컴파일 속도 개선)
+    "esModuleInterop": true, // CommonJS 모듈과 ES 모듈 간의 호환성을 활성화
+    "module": "esnext", // 모듈 시스템을 설정 (esnext: 최신 ES 모듈 시스템을 사용)
+    "moduleResolution": "node", // 모듈 해석 방법 (node: Node.js 방식의 모듈 해석)
+    "resolveJsonModule": true, // JSON 파일을 모듈로 사용
+    "isolatedModules": true, // 각 파일을 독립적으로 트랜스파일 (Babel.. 컴파일 시 유용)
+    "jsx": "preserve" // JSX 구문을 변환하지 않고 유지 (Babel.. 컴파일 시 유용)
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

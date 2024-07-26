@@ -1,43 +1,38 @@
 import {useRouter} from "next/router";
 import {useMutation, gql} from "@apollo/client";
 import BoardWriteUI from "./BoardWrite.presenter";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {CREATE_BOARD, UPDATE_BOARDS} from "./BoardWriter.queries";
+import {IValues, BoardWriteProps, initialState, ChangeEventHandler} from "@/src/components/units/board/write/BoardWrite.types";
 
-export default function BoardWrite(props) {
+const validKey: Array<keyof IValues> = ['writer', 'password', 'title', 'description'];
+
+export default function BoardWrite(props: BoardWriteProps) {
     const router = useRouter();
     const [createBoard] = useMutation(CREATE_BOARD);
     const [updateBoard] = useMutation(UPDATE_BOARDS);
 
-    const [values, setValues] = useState({
-        writer: {value: '', error: '',},
-        password: {value: '', error: '',},
-        title: {value: '', error: '',},
-        description: {value: '', error: '',},
-        address1: {value: ''},
-        address2: {value: ''},
-        address3: {value: ''},
-        youtubeUrl: {value: ''},
-        picture: [],
-        mainType: {value: 'youtube'},
-    });
+    const [values, setValues] = useState<IValues>(initialState);
     const [isActive, setIsActive] = useState(true);
-    const validKey = ['writer', 'password', 'title', 'description'];
 
-    const onChangeValue = (name, e) => {
+    const onChangeValue: ChangeEventHandler = (name, e) => {
         setValues(prevValues => ({
             ...prevValues,
             [name]: {
-                ...prevValues[name],  // 기존의 값 유지
-                value: e.target.value  // value 업데이트
+                ...prevValues[name],
+                value: e.target.value
             }
         }));
     }
-    const onUploadBoard = async (isEdit) => {
+    const onUploadBoard = async (isEdit: boolean) => {
         const checkValid = () => validKey.every(key => values[key]?.value);
 
         if(isEdit) {
-            const myVariables = {}
+            interface IMyVariables {
+                title?: string
+                contents?: string
+            }
+            const myVariables: IMyVariables = {}
             if(values.title?.value) myVariables.title = values.title?.value
             if(values.description?.value) myVariables.contents = values.description?.value
 
@@ -55,16 +50,16 @@ export default function BoardWrite(props) {
         } else {
             setValues(prevValues => {
                 const newValues = { ...prevValues };
-                Object.keys(newValues).forEach(key => {
+                (Object.keys(newValues) as Array<keyof IValues>).forEach(key => {
                     if (!newValues[key].value) {
                         newValues[key].error = '내용을 입력해주세요';
                     } else {
-                        newValues[key].error = '';  // 값이 있는 경우 오류를 제거합니다.
+                        newValues[key].error = '';
                     }
                 });
                 return newValues;
             });
-            const isValid = await checkValid();
+            const isValid = checkValid();
             if(isValid) {
                 const result = await createBoard({
                     variables: {
