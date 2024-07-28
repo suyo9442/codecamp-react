@@ -29,12 +29,12 @@ export default function BoardList() {
             search: ""
         }
     })
-    const boards = data?.fetchBoards || [];
-    const boardsCount = count?.fetchBoardsCount || 0;
-    let boardsCountArrLen;
+    const boards = data || [];
+    const boardsCount = count || "0";
+    let boardsCountArrLen: number = 0;
 
     // Move
-    const onMoveToDetailPage = (id) => router.push(`/boards/${id}`);
+    const onMoveToDetailPage = (id: string) => router.push(`/boards/${id}`);
     const onMoveToNewPage = () => router.push(`/boards/new`);
 
     // Search
@@ -47,23 +47,25 @@ export default function BoardList() {
     }
 
     // Pagination
-    const onCalcPagination = (boardsCount, pageOrder) => {
+    const onCalcPagination = (boardsCount: number, pageOrder: number) => {
         const repeatNum = boardsCount / 10;
         const remainder = boardsCount % 10;
 
-        const result = [];
-        const sample = Array.from({ length: 10 }, (_, index) => index + 1);
+        const result: number[][] = [];
+        const sample: number[] = Array.from({ length: 10 }, (_, index) => index + 1);
 
+        // 페이지네이션 목록 생성
         let i = 0;
         while (i < repeatNum) {
             if (i === 0) {
                 result.push(sample);
             } else {
-                result.push(result[i - 1].map(list => list + 10));
+                result.push(result[i - 1].map((list: number)=> list + 10));
             }
             i++;
         };
 
+        // 나머지 페이지 처리
         if(Math.floor(repeatNum)) {
             result[result.length - 1]?.splice(remainder)
         } else {
@@ -74,9 +76,9 @@ export default function BoardList() {
 
         return result[pageOrder]
     }
-    const onPaginateList = (pageNum) => setPageNumber(pageNum);
-    const onPaginateNext = (mode) => {
-        const onActivePage = (direction) => {
+    // const onPaginateList = (pageNum: number) => setPageNumber(pageNum);
+    const onPaginateNext = (mode: string) => {
+        const onActivePage = (direction: number) => {
             const activePage = onCalcPagination(boardsCount, pageOrder + direction)[0]
             setPageNumber(activePage)
         }
@@ -108,7 +110,7 @@ export default function BoardList() {
             onMoveToDetailPage={onMoveToDetailPage}
             onMoveToNewPage={onMoveToNewPage}
             onCalcPagination={onCalcPagination}
-            onPaginateList={onPaginateList}
+            setPageNumber={setPageNumber}
             onPaginateNext={onPaginateNext}
         />
     )

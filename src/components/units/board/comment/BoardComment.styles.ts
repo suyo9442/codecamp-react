@@ -40,7 +40,7 @@ export const TextLen = styled.button`
   bottom: 0;
   padding: 24px;
 `
-export const SubmitBtn = styled.button`
+export const SubmitBtn = styled.button<{isEdit: boolean}>`
   height: 52px;
   background: ${props => props.isEdit ? 'var(--yellow-100)' : 'var(--black)'};
   color: ${props => props.isEdit ? 'var(--black)' : 'var(--white)'};

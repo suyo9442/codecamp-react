@@ -6,25 +6,27 @@ import {
     UPDATE_BOARD_COMMENT
 } from "./BoardComment.queries";
 import { useMutation, useQuery } from "@apollo/client";
-import {useEffect, useState} from "react";
+import {ChangeEvent, useEffect, useState} from "react";
 import {formatCreatedAt} from "@/src/commons/utils/FormatDate";
+import { IComments } from "./BoardComment.types";
+import { IBoardComment, IMutation, IMutationUpdateBoardCommentArgs, IQuery, IQueryFetchBoardCommentsArgs } from "@/src/commons/types/generated/type";
 
 const PLACE_HOLDER = '개인정보를 공유 및 요청하거나, 명예 훼손, 무단 광고, 불법 정보 유포시 모니터링 후 삭제될 수 있으며, 이에 대한 민형사상 책임은 게시자에게 있습니다.'
 const TXT_MAX_LENGTH = 10
 
-export default function BoardComment(props) {
+export default function BoardComment(props: IBoardCommentProps) {
     // Fetch Comment
-    const { data } = useQuery(FETCH_BOARD_COMMENTS, {
+    const { data } = useQuery<Pick<IQuery, "fetchBoardComments">, IQueryFetchBoardCommentsArgs>(FETCH_BOARD_COMMENTS, {
         variables: {
             page: 1,
             boardId: props.boardId
         },
         skip: !props.boardId
     });
-    const [comments, setComments] = useState([]);
+    const [comments, setComments] = useState<IComments[]>([]);
     useEffect(() => {
         if (data) {
-            const fetchComments = data.fetchBoardComments.map(list => ({
+            const fetchComments = data.fetchBoardComments.map((list: IBoardComment) => ({
                 ...list,
                 isEdit: false,
                 stars: [...Array(5)].map((_, idx) => idx < list.rating ? 1 : 0),
@@ -52,11 +54,11 @@ export default function BoardComment(props) {
         contents: '',
     })
     const [txtLen, setTxtLen] = useState(0)
-    const onSetStars = (idx) => {
+    const onSetStars = (idx: number) => {
         const newStars = stars.map((value, i) => i <= idx ? 1 : 0);
         setStars(newStars); // 상태 업데이트
     }
-    const onSetValues = (key, e) => {
+    const onSetValues = (key: string, e: ChangeEvent<HTMLInputElement>) => {
         let newValue = e.target.value;
 
         if (key === 'contents') {
@@ -107,7 +109,7 @@ export default function BoardComment(props) {
 
 
         } catch (err) {
-            console.error(err)
+            if(err instanceof Error) console.error(err)
         }
     }
 
@@ -123,7 +125,7 @@ export default function BoardComment(props) {
             }, // 리페치할 쿼리와 변수
         ],
     })
-    const onDeleteBoardComment = async (id) => {
+    const onDeleteBoardComment = async (id: string) => {
         try {
             const password = prompt('비밀번호를 입력하세요.');
             if (!password) return;
@@ -138,13 +140,13 @@ export default function BoardComment(props) {
             if (_id) {
                 console.log('댓글 삭제 성공');
             }
-        } catch (err) {
-            alert(err.message)
+        } catch (err) { // 🐤
+            if(err instanceof Error) console.error(err)
         }
     }
 
     // Update Comment
-    const [updateBoardComment] = useMutation(UPDATE_BOARD_COMMENT, {
+    const [updateBoardComment] = useMutation<Pick<IMutation, "updateBoardComment">, IMutationUpdateBoardCommentArgs>(UPDATE_BOARD_COMMENT, {
         refetchQueries: [
             {
                 query: FETCH_BOARD_COMMENTS,
@@ -160,8 +162,10 @@ export default function BoardComment(props) {
         stars: [1, 1, 1, 1, 1],
         txtLen: 0
     })
-    const onSetEditValue = (key, value) => {
+    const onSetEditValue = (key: 'contents' | 'stars', value: string | number) => {
         if(key === 'contents') {
+            if (typeof value === 'number') return;
+
             const trimmedValue = value.length > TXT_MAX_LENGTH ? value.slice(0, TXT_MAX_LENGTH) : value;
             setEditValue(preVal => ({
                 ...preVal,
@@ -171,6 +175,8 @@ export default function BoardComment(props) {
         }
 
         if(key === 'stars') {
+            if (typeof value === 'string') return;
+
             const newStars = [...Array(5)].map((_, idx) => idx <= value ? 1 : 0);
             setEditValue(preVal => ({
                 ...preVal,
@@ -178,7 +184,7 @@ export default function BoardComment(props) {
             }));
         }
     }
-    const onBoundInitialVal = (obj) => {
+    const onBoundInitialVal = (obj: IComments) => {
         Object.keys(editValue).forEach(list => {
             if(list === 'contents') {
                 setEditValue(preVal => ({
@@ -190,7 +196,7 @@ export default function BoardComment(props) {
 
             if(list === 'stars') {
                 const rating = Math.floor(obj.rating)
-                const newStars = obj.stars.map((value, i) => i < rating ? 1 : 0);
+                const newStars = obj.stars.map((_, i) => i < rating ? 1 : 0);
                 setEditValue(preVal => ({
                     ...preVal,
                     stars: newStars
@@ -198,7 +204,7 @@ export default function BoardComment(props) {
             }
         })
     }
-    const onShowEditComment = (id, obj) => {
+    const onShowEditComment = (id: string, obj: IComments) => {
         // Open Edit Input
         const _comments = comments.map(list => list._id === id ? {...list, isEdit: true} : {...list, isEdit: false})
         setComments(_comments);
@@ -206,7 +212,7 @@ export default function BoardComment(props) {
         // Bounding Initial Value
         onBoundInitialVal(obj)
     }
-    const onUpdateBoardComment = async (id) => {
+    const onUpdateBoardComment = async (id: string) => {
         try {
             const password = prompt('비밀번호를 입력하세요.');
             if (!password) return;
@@ -221,12 +227,12 @@ export default function BoardComment(props) {
                     boardCommentId: id
                 }
             })
-            const {_id} = result.data.updateBoardComment;
+            const _id = result.data?.updateBoardComment?._id;
             if(_id) {
                 console.log('댓글을 업데이트 했습니다.')
             }
         } catch (err) {
-            alert(err.message)
+            if(err instanceof Error) console.error(err)
         }
     }
 

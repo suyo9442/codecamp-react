@@ -1,13 +1,14 @@
+import { IQuery } from "@/src/commons/types/generated/type";
 import {ChangeEvent} from "react";
 
 // BoardWrite.container
-export interface BoardWriteProps {
+export interface IBoardWriteProps {
     isEdit: boolean,
-    data?: any // 나중에 코드젠으로 수정
+    data?: Pick<IQuery, "fetchBoard">
 }
 export interface Field {
     value: string;
-    error?: string; // error는 선택적 속성일 수 있음
+    error?: string;
 }
 export interface IValues {
     writer: Field;

@@ -127,11 +127,11 @@ export const BoardTr = styled.tr`
         background: rgba(0, 0, 0, 0.1);
     }
 `
-export const BoardTh = styled.th`
+export const BoardTh = styled.th<{width: string}>`
     width: ${props => props.width || 'auto'};
     padding: 16px 0;
 `
-export const BoardTd = styled.td`
+export const BoardTd = styled.td<{width?: string}>`
     width: ${props => props.width || 'auto'};
     padding: 16px 0;
     text-align: center;
@@ -163,7 +163,7 @@ export const Pagination = styled.ul`
         transition: all 0.2s;
     }
 `
-export const ButtonArrow = styled.button`
+export const ButtonArrow = styled.button<{arrow: string}>`
     position: relative;
     padding: 16px;
     &::after {

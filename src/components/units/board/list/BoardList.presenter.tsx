@@ -18,8 +18,9 @@ import {
     Title,
     Wrap
 } from "@/src/components/units/board/list/BoardList.styles";
+import { IBoardListUIProps } from "@/src/components/units/board/list/BoardList.types";
 
-export default function BoardListUI(props) {
+export default function BoardListUI(props: IBoardListUIProps) {
     return (
         <Wrap>
             <BestBoardsWrap>
@@ -79,7 +80,7 @@ export default function BoardListUI(props) {
                     </thead>
                     <tbody>
                     {
-                        props.boards?.map(list =>
+                        props.boards?.fetchBoards?.map(list =>
                             <BoardTr key={list._id} onClick={() => props.onMoveToDetailPage(list._id)}>
                                 <BoardTd>{list._id.slice(-6)}</BoardTd>
                                 <BoardTd>{list.title}</BoardTd>
@@ -89,7 +90,8 @@ export default function BoardListUI(props) {
                                     {/*2024.07.01*/}
                                 </BoardTd>
                             </BoardTr>
-                        )}
+                        )
+                    }
                     </tbody>
                 </BoardsSec>
                 <PaginationSec>
@@ -101,11 +103,11 @@ export default function BoardListUI(props) {
                         />
                         <Pagination>
                             {
-                                props.onCalcPagination(props.boardsCount, props.pageOrder)?.map(list =>
+                                props.onCalcPagination(props.boardsCount?.fetchBoardsCount, props.pageOrder)?.map(list =>
                                     <li
                                         key={list}
                                         className={list === props.pageNumber ? 'active' : ''}
-                                        onClick={() => props.onPaginateList(list)}
+                                        onClick={() => props.setPageNumber(list)}
                                     >
                                         <button>{list}</button>
                                     </li>

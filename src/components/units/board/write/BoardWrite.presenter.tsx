@@ -33,7 +33,8 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
                                     type='text'
                                     placeholder='이름을 적어주세요.'
                                     onChange={(e) => props.onChangeValue('writer', e)}
-                                    defaultValue={props.data?.writer}
+                                    defaultValue={props.data?.fetchBoard.writer}
+                                    readOnly={!!props.data?.fetchBoard.writer}
                                 />
                                 {props.values.writer.error && <ValidErrMsg>{props.values.writer.error}</ValidErrMsg>}
                             </RowBox>
@@ -56,7 +57,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
                                     type='text'
                                     placeholder='제목을 작성해주세요.'
                                     onChange={(e) => props.onChangeValue('title', e)}
-                                    defaultValue={props.data?.title}
+                                    defaultValue={props.data?.fetchBoard.title}
                                 />
                                 {props.values.title.error && <ValidErrMsg>{props.values.title.error}</ValidErrMsg>}
                             </RowBox>
@@ -68,7 +69,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps) {
                                     id='description'
                                     placeholder='내용을 작성해주세요.'
                                     onChange={(e) => props.onChangeValue('description', e)}
-                                    defaultValue={props.data?.contents}
+                                    defaultValue={props.data?.fetchBoard.contents}
                                 />
                                 {props.values.description.error && <ValidErrMsg>{props.values.description.error}</ValidErrMsg>}
                             </RowBox>

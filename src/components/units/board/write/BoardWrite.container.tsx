@@ -3,14 +3,15 @@ import {useMutation, gql} from "@apollo/client";
 import BoardWriteUI from "./BoardWrite.presenter";
 import {useState} from "react";
 import {CREATE_BOARD, UPDATE_BOARDS} from "./BoardWriter.queries";
-import {IValues, BoardWriteProps, initialState, ChangeEventHandler} from "@/src/components/units/board/write/BoardWrite.types";
+import {IValues, IBoardWriteProps, initialState, ChangeEventHandler} from "@/src/components/units/board/write/BoardWrite.types";
+import { IMutation, IMutationCreateBoardArgs, IMutationUpdateBoardArgs } from "@/src/commons/types/generated/type";
 
 const validKey: Array<keyof IValues> = ['writer', 'password', 'title', 'description'];
 
-export default function BoardWrite(props: BoardWriteProps) {
+export default function BoardWrite(props: IBoardWriteProps) {
     const router = useRouter();
-    const [createBoard] = useMutation(CREATE_BOARD);
-    const [updateBoard] = useMutation(UPDATE_BOARDS);
+    const [createBoard] = useMutation<Pick<IMutation, "createBoard">, IMutationCreateBoardArgs>(CREATE_BOARD);
+    const [updateBoard] = useMutation<Pick<IMutation, "updateBoard">, IMutationUpdateBoardArgs>(UPDATE_BOARDS);
 
     const [values, setValues] = useState<IValues>(initialState);
     const [isActive, setIsActive] = useState(true);
@@ -35,6 +36,11 @@ export default function BoardWrite(props: BoardWriteProps) {
             const myVariables: IMyVariables = {}
             if(values.title?.value) myVariables.title = values.title?.value
             if(values.description?.value) myVariables.contents = values.description?.value
+
+            if(typeof router.query.boardId !== 'string') {
+                alert(`boardId type is string`)
+                return;
+            }
 
             // const isValid = await checkValid();
             // if(isValid) {

@@ -13,9 +13,9 @@ import {
     Title,
     Writer
 } from "@/src/components/units/board/detail/BoardDetail.styles";
-import BoardComment from "@/src/components/units/board/comment/BoardComment.container";
+import { IBoardDetailUIProps } from "./BoardDetail.types";
 
-export default function BoardDetailUI(props) {
+export default function BoardDetailUI(props: IBoardDetailUIProps) {
     return (
         <>
             <EmotionWrap isShadow={true}>
