@@ -1,6 +1,4 @@
-
 import styled from "@emotion/styled";
-
 
 export const CardWrapper = styled.div`
   padding-top: 80px;
@@ -24,21 +22,19 @@ export const Header = styled.div`
 export const AvatarWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
 `;
-
 export const Avatar = styled.img`
   margin-right: 10px;
 `;
-
 export const Info = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
 `;
-
-export const Writer = styled.div``;
-
-export const CreatedAt = styled.div``;
+export const ToolTips = styled.div`
+  margin-left: auto;
+`;
 
 export const Body = styled.div`
   width: 100%;
@@ -52,6 +48,10 @@ export const Title = styled.h1`
 export const Contents = styled.div`
   padding-top: 40px;
   padding-bottom: 120px;
+`;
+export const YouTube = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export const BottomWrapper = styled.div`

@@ -3,19 +3,34 @@ import { useMutation } from "@apollo/client";
 import BoardWriteUI from "./BoardWrite.presenter";
 import { useState } from "react";
 import { CREATE_BOARD, UPDATE_BOARDS } from "./BoardWriter.queries";
-import { type IValues, type IBoardWriteProps, initialState, type ChangeEventHandler } from "@/src/components/units/board/write/BoardWrite.types";
+import {
+  type IValues,
+  type IBoardWriteProps,
+  initialState,
+  type ChangeEventHandler,
+  type IAddress,
+  type IMyVariables,
+} from "@/src/components/units/board/write/BoardWrite.types";
 import { type IMutation, type IMutationCreateBoardArgs, type IMutationUpdateBoardArgs } from "@/src/commons/types/generated/type";
 
-const validKey: Array<keyof IValues> = ["writer", "password", "title", "description"];
+// const validKey: Array<keyof IValues> = ["writer", "password", "title", "description"];
 
 export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   const router = useRouter();
+  const { boardId = "" } = router.query;
+
   const [createBoard] = useMutation<Pick<IMutation, "createBoard">, IMutationCreateBoardArgs>(CREATE_BOARD);
   const [updateBoard] = useMutation<Pick<IMutation, "updateBoard">, IMutationUpdateBoardArgs>(UPDATE_BOARDS);
 
   const [values, setValues] = useState<IValues>(initialState);
+  const [address, setAddress] = useState<IAddress>({
+    zipcode: "",
+    address: "",
+    addressDetail: "",
+  });
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [isActive, setIsActive] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onChangeValue: ChangeEventHandler = (name, e) => {
     setValues((prevValues) => ({
@@ -26,60 +41,64 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       },
     }));
   };
-  const onUploadBoard = async (isEdit: boolean) => {
-    const checkValid = () => validKey.every((key) => values[key]?.value);
-
-    if (isEdit) {
-      interface IMyVariables {
-        title?: string;
-        contents?: string;
-      }
+  const onUploadBoard = async (isEdit: boolean): Promise<boolean> => {
+    // const checkValid = (): boolean => validKey.every((key) => values[key]?.value);
+    const moveToBoardDetail = async (_id: string): Promise<boolean> => {
+      if (_id === "") return;
+      void router.push(`/boards/${_id}`);
+    };
+    const onCreateBoard = async (): Promise<string> => {
+      const result = await createBoard({
+        variables: {
+          createBoardInput: {
+            writer: values.writer.value,
+            password: values.password.value,
+            title: values.title.value,
+            contents: values.description.value,
+            youtubeUrl: values.youtubeUrl.value,
+            boardAddress: {
+              zipcode: address.zipcode,
+              address: address.address,
+              addressDetail: address.addressDetail,
+            },
+          },
+        },
+      });
+      return result?.data?.createBoard._id ?? "";
+    };
+    const onUpdateBoard = async (): Promise<string> => {
       const myVariables: IMyVariables = {};
-      if (values.title?.value) myVariables.title = values.title?.value;
-      if (values.description?.value) myVariables.contents = values.description?.value;
+      if (values.title?.value !== "") myVariables.title = values.title?.value;
+      if (values.description?.value !== "") myVariables.contents = values.description?.value;
 
-      if (typeof router.query.boardId !== "string") {
-        alert(`boardId type is string`);
-        return;
-      }
-
-      // const isValid = await checkValid();
-      // if(isValid) {
       const result = await updateBoard({
         variables: {
           updateBoardInput: myVariables,
           password: values.password.value,
-          boardId: router.query.boardId,
+          boardId,
         },
       });
-      router.push(`/boards/${result?.data?.updateBoard?._id}`);
-      // }
-    } else {
-      setValues((prevValues) => {
-        const newValues = { ...prevValues };
-        (Object.keys(newValues) as Array<keyof IValues>).forEach((key) => {
-          if (!newValues[key].value) {
-            newValues[key].error = "내용을 입력해주세요";
-          } else {
-            newValues[key].error = "";
-          }
-        });
-        return newValues;
-      });
-      const isValid = checkValid();
-      if (isValid) {
-        const result = await createBoard({
-          variables: {
-            createBoardInput: {
-              writer: values.writer.value,
-              password: values.password.value,
-              title: values.title.value,
-              contents: values.description.value,
-            },
-          },
-        });
-        await router.push(`/boards/${result?.data?.createBoard?._id}`);
+
+      return result?.data?.updateBoard._id ?? "";
+    };
+
+    try {
+      let _id: string = "";
+
+      if (isEdit) {
+        _id = await onUpdateBoard();
+      } else {
+        _id = await onCreateBoard();
       }
+
+      if (_id !== "") {
+        alert("성공");
+        await moveToBoardDetail(_id);
+      } else {
+        alert("실패");
+      }
+    } catch (err) {
+      alert(err.message);
     }
   };
 
@@ -88,5 +107,40 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   //     setIsActive(isValid);
   // }, [values]);
 
-  return <BoardWriteUI data={props.data} values={values} onChangeValue={onChangeValue} onUploadBoard={onUploadBoard} isActive={isActive} isEdit={props.isEdit} />;
+  const onToggleModal = (): void => {
+    setIsModalOpen((preVal) => !preVal);
+  };
+  const onSetAddress = (data): void => {
+    const { zonecode, address } = data;
+    setAddress((preVal) => ({
+      ...preVal,
+      zipcode: zonecode,
+      address,
+    }));
+    onToggleModal();
+  };
+  const onSetAddressDetail = (value): void => {
+    setAddress((preVal) => ({
+      ...preVal,
+      addressDetail: value,
+    }));
+
+    console.log(address);
+  };
+
+  return (
+    <BoardWriteUI
+      data={props.data}
+      values={values}
+      address={address}
+      isActive={isActive}
+      isEdit={props.isEdit}
+      isModalOpen={isModalOpen}
+      onChangeValue={onChangeValue}
+      onUploadBoard={onUploadBoard}
+      onToggleModal={onToggleModal}
+      onSetAddress={onSetAddress}
+      onSetAddressDetail={onSetAddressDetail}
+    />
+  );
 }

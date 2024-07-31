@@ -18,6 +18,8 @@ import {
   ValidErrMsg,
 } from "@/src/components/units/board/write/BoardWriter.styles";
 import { type IBoardWriteUIProps } from "@/src/components/units/board/write/BoardWrite.types";
+import { Modal } from "antd";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
   return (
@@ -38,7 +40,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                 defaultValue={props.data?.fetchBoard.writer ?? ""}
                 readOnly={Boolean(props.data?.fetchBoard.writer)}
               />
-              {props.values.writer.error ?? <ValidErrMsg>{props.values.writer.error}</ValidErrMsg>}
+              {props.values.writer.error !== "" && <ValidErrMsg>{props.values.writer.error}</ValidErrMsg>}
             </RowBox>
             <RowBox>
               <CTLabel htmlFor="password">비밀번호</CTLabel>
@@ -50,7 +52,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                   props.onChangeValue("password", e);
                 }}
               />
-              {props.values.password.error ?? <ValidErrMsg>{props.values.password.error}</ValidErrMsg>}
+              {props.values.password.error !== "" && <ValidErrMsg>{props.values.password.error}</ValidErrMsg>}
             </RowBox>
           </ColumnBox>
           <ColumnBox>
@@ -63,9 +65,9 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                 onChange={(e) => {
                   props.onChangeValue("title", e);
                 }}
-                defaultValue={props.data?.fetchBoard.title}
+                defaultValue={props.data?.fetchBoard.title ?? ""}
               />
-              {props.values.title.error ?? <ValidErrMsg>{props.values.title.error}</ValidErrMsg>}
+              {props.values.title.error !== "" && <ValidErrMsg>{props.values.title.error}</ValidErrMsg>}
             </RowBox>
           </ColumnBox>
           <ColumnBox>
@@ -77,9 +79,9 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                 onChange={(e) => {
                   props.onChangeValue("description", e);
                 }}
-                defaultValue={props.data?.fetchBoard.contents}
+                defaultValue={props.data?.fetchBoard.contents ?? ""}
               />
-              {props.values.description.error ?? <ValidErrMsg>{props.values.description.error}</ValidErrMsg>}
+              {props.values.description.error !== "" && <ValidErrMsg>{props.values.description.error}</ValidErrMsg>}
             </RowBox>
           </ColumnBox>
           <ColumnBox>
@@ -90,28 +92,32 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                   type="text"
                   placeholder="07250"
                   width="77px"
-                  onChange={(e) => {
-                    props.onChangeValue("address1", e);
-                  }}
+                  readOnly
+                  value={props.address?.zipcode !== "" ? props.address.zipcode : props.data?.fetchBoard.boardAddress?.zipcode ?? ""}
                 />
-                <CTButtonFilled type="button" margin="0 0 0 16px" color="var(--white)" bgColor="var(--black)" padding="16px">
+                <CTButtonFilled
+                  onClick={props.onToggleModal}
+                  type="button"
+                  margin="0 0 0 16px"
+                  color="var(--white)"
+                  bgColor="var(--black)"
+                  padding="16px"
+                >
                   우편번호 검색
                 </CTButtonFilled>
               </InlineBlockBox>
               <InlineBlockBox>
                 <CTInput
                   type="text"
-                  onChange={(e) => {
-                    props.onChangeValue("address2", e);
-                  }}
+                  readOnly
+                  value={props.address?.address !== "" ? props.address.address : props.data?.fetchBoard.boardAddress?.address ?? ""}
                 />
               </InlineBlockBox>
               <InlineBlockBox>
                 <CTInput
                   type="text"
-                  onChange={(e) => {
-                    props.onChangeValue("address3", e);
-                  }}
+                  onChange={(e) => props.onSetAddressDetail(e.target.value)}
+                  value={props.address?.addressDetail !== "" ? props.address.addressDetail : props.data?.fetchBoard.boardAddress?.addressDetail ?? ""}
                 />
               </InlineBlockBox>
             </RowBox>
@@ -123,6 +129,7 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
                 id="youtubeUrl"
                 type="text"
                 placeholder="링크를 복사해주세요."
+                defaultValue={props.data?.fetchBoard.youtubeUrl ?? ""}
                 onChange={(e) => {
                   props.onChangeValue("youtubeUrl", e);
                 }}
@@ -186,6 +193,12 @@ export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
             </CTButtonFilled>
           </ButtonSection>
         </ContentSection>
+
+        {props.isModalOpen && (
+          <Modal open={props.isModalOpen} onOk={props.onToggleModal} onCancel={props.onToggleModal}>
+            <DaumPostcodeEmbed onComplete={props.onSetAddress} {...props} />
+          </Modal>
+        )}
       </EmotionContainer>
     </EmotionWrap>
   );

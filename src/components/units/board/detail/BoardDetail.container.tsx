@@ -1,34 +1,26 @@
-import {useRouter} from "next/router";
-import {useQuery} from "@apollo/client";
-import {FETCH_BOARD} from "@/src/components/units/board/detail/BoardDetail.quries";
+import { useRouter } from "next/router";
+import { useQuery } from "@apollo/client";
+import { FETCH_BOARD } from "@/src/components/units/board/detail/BoardDetail.quries";
 import BoardDetailUI from "@/src/components/units/board/detail/BoardDetail.presenter";
-import BoardComment from "@/src/components/units/board/comment/BoardComment.container";
-import { IQuery, IQueryFetchBoardArgs } from "@/src/commons/types/generated/type";
+import { type IQuery, type IQueryFetchBoardArgs } from "@/src/commons/types/generated/type";
 
-export default function BoardDetail() {
-    const router = useRouter()
-    const { boardId } = router.query;
+export default function BoardDetail(): JSX.Element {
+  const router = useRouter();
+  const { boardId = "" } = router.query;
 
-    if(!router || typeof boardId !== 'string') return <></>
-    const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(FETCH_BOARD, {
-        variables: { boardId },
-        skip: !boardId
-    });
+  const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(FETCH_BOARD, {
+    variables: { boardId },
+    skip: Boolean(boardId === ""),
+  });
 
-    // Move
-    const onMoveToBoardList = () => router.push('/boards');
-    const onMoveToBoardEdit = () => router.push(`/boards/${data?.fetchBoard?._id}/edit`);
+  // Move
+  const onMoveToBoardList = (): Promise<boolean> => router.push("/boards");
+  const onMoveToBoardEdit = (): Promise<boolean> => {
+    const _id = data?.fetchBoard._id ?? "";
+    if (_id === "") return;
 
-    return (
-        <>
-            <BoardDetailUI
-                data={data}
-                onMoveToBoardList={onMoveToBoardList}
-                onMoveToBoardEdit={onMoveToBoardEdit}
-            />
-            <BoardComment
-                boardId={boardId}
-            />
-        </>
-    );
+    void router.push(`/boards/${_id}/edit`);
+  };
+
+  return <BoardDetailUI data={data} onMoveToBoardList={onMoveToBoardList} onMoveToBoardEdit={onMoveToBoardEdit} />;
 }

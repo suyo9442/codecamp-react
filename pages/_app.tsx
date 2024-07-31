@@ -1,18 +1,20 @@
-import '@/styles/reset.css';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+// import '@/styles/reset.css';
 import { type AppProps } from 'next/app'; // Next.js의 AppProps 타입 가져오기
+import Layout from '@/src/components/commons/layout';
+import ApolloSetting from "@/src/components/commons/apollo";
+import {Global} from "@emotion/react";
+import {globalStyles} from "@/src/components/commons/styles/globalStyles";
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-    const client = new ApolloClient({
-        // uri: "http://backend09.codebootcamp.co.kr/graphql",
-        uri: "http://backend-practice.codebootcamp.co.kr/graphql",
-        cache: new InMemoryCache()
-    })
-
     return (
-        <ApolloProvider client={client}>
-            <Component {...pageProps} />
-        </ApolloProvider>
+        <ApolloSetting>
+            <>
+                <Global styles={globalStyles}/>
+                <Layout>
+                    <Component />
+                </Layout>
+            </>
+        </ApolloSetting>
     )
 }
 

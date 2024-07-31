@@ -1,36 +1,36 @@
 import styled from "@emotion/styled";
-import {ICTButtonFilledProps} from "@/src/components/units/board/write/BoardWrite.types";
+import { type ICTButtonFilledProps } from "@/src/components/units/board/write/BoardWrite.types";
 
-export const EmotionWrap = styled.div<{isShadow?: boolean}>`
+export const EmotionWrap = styled.div<{ isShadow?: boolean }>`
   //border: 1px solid red;
   width: 1200px;
   margin: 100px auto;
-  box-shadow: ${props => props.isShadow ? '0 0 10px #CBCBCB' : 'none'};
-`
+  box-shadow: ${(props) => (props.isShadow === true ? "0 0 10px #CBCBCB" : "none")};
+`;
 export const EmotionContainer = styled.div`
   padding: 0 86px;
-`
+`;
 export const TitleSection = styled.div`
   padding: 56px 0;
   display: flex;
   justify-content: center;
   font-size: 3.6rem;
   font-weight: 700;
-`
+`;
 export const ContentSection = styled.div`
   display: flex;
   flex-direction: column;
-`
+`;
 export const ButtonSection = styled.div`
   padding: 24px 0;
   display: flex;
   justify-content: center;
-`
+`;
 export const ColumnBox = styled.div`
   display: flex;
   justify-content: space-between;
   padding-bottom: 32px;
-`
+`;
 export const RowBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -40,7 +40,7 @@ export const RowBox = styled.div`
   &:first-of-type {
     margin-left: 0;
   }
-`
+`;
 export const InlineBlockBox = styled.div`
   display: flex;
   flex-direction: row;
@@ -49,13 +49,13 @@ export const InlineBlockBox = styled.div`
   &:first-of-type {
     margin-top: 0;
   }
-`
+`;
 export const CTLabel = styled.label`
   font-size: 1.6rem;
   padding: 12px 0;
-`
+`;
 export const CTInput = styled.input`
-  width: ${props => props.width || '100%'};
+  width: ${(props) => props.width ?? "100%"};
   height: 52px;
   font-size: 1.6rem;
   padding: 12px;
@@ -65,7 +65,7 @@ export const CTInput = styled.input`
   &::placeholder {
     color: var(--grey-100);
   }
-`
+`;
 export const CTTextArea = styled.textarea`
   font-size: 1.6rem;
   padding: 12px;
@@ -77,17 +77,17 @@ export const CTTextArea = styled.textarea`
   &::placeholder {
     color: var(--grey-100);
   }
-`
+`;
 export const CTButtonFilled = styled.button<ICTButtonFilledProps>`
-    width: ${props => props.width || 'auto'};
-    cursor: pointer;
-    color: ${props => props.color || 'var(--black)'};
-    background:  ${props => props.bgColor || 'var(--yellow-100)'};
-    opacity: ${props => props.isActive ? '1' : '0.5'};
-    padding:  ${props => props.padding || '16px 48px'};
-    font-size: 1.6rem;
-    margin: ${props => props.margin || '0'};
-`
+  width: ${(props) => props.width ?? "auto"};
+  cursor: pointer;
+  color: ${(props) => props.color ?? "var(--black)"};
+  background: ${(props) => props.bgColor ?? "var(--yellow-100)"};
+  opacity: ${(props) => (props.isActive === true ? "1" : "0.5")};
+  padding: ${(props) => props.padding ?? "16px 48px"};
+  font-size: 1.6rem;
+  margin: ${(props) => props.margin ?? "0"};
+`;
 export const AddImgBox = styled.div`
   width: 78px;
   height: 78px;
@@ -98,7 +98,7 @@ export const AddImgBox = styled.div`
   flex-direction: column;
   margin-right: 24px;
   font-size: 12px;
-`
+`;
 export const AddImgContent = styled.span`
   position: relative;
   display: inline-block;
@@ -111,7 +111,7 @@ export const AddImgContent = styled.span`
   /* plus */
   &::before,
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     background-color: var(--grey-200); /* 선 색상 */
   }
@@ -135,7 +135,7 @@ export const RadioBox = styled.div`
   margin-right: 18px;
   display: flex;
   align-items: center;
-`
+`;
 export const CTRadio = styled.input`
   &[type="radio"] {
     margin-bottom: 7px;
@@ -153,9 +153,9 @@ export const CTRadio = styled.input`
       border: 3px solid #fff; // 라인이 아닌, 라인과 원 사이 색상
       box-shadow: 0 0 0 1px var(--yellow-100); // 라인
     }
-`
+`;
 export const ValidErrMsg = styled.span`
   font-size: 1.2rem;
   color: var(--disable);
   margin-top: 6px;
-`
+`;

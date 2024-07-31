@@ -1,50 +1,69 @@
-import {EmotionContainer, EmotionWrap} from "@/src/components/units/board/write/BoardWriter.styles";
+import { EmotionContainer, EmotionWrap } from "@/src/components/units/board/write/BoardWriter.styles";
 import {
-    Avatar,
-    AvatarWrapper,
-    Body,
-    BottomWrapper,
-    Button,
-    CardWrapper,
-    Contents,
-    CreatedAt,
-    Header,
-    Info,
-    Title,
-    Writer
+  Avatar,
+  AvatarWrapper,
+  Body,
+  BottomWrapper,
+  Button,
+  CardWrapper,
+  Contents,
+  Header,
+  Info,
+  Title,
+  YouTube,
+  ToolTips,
 } from "@/src/components/units/board/detail/BoardDetail.styles";
-import { IBoardDetailUIProps } from "./BoardDetail.types";
+import { type IBoardDetailUIProps } from "./BoardDetail.types";
+import ReactPlayer from "react-player";
+import { formatCreatedAt } from "@/src/commons/utils/FormatDate";
+import { Tooltip } from "antd";
 
-export default function BoardDetailUI(props: IBoardDetailUIProps) {
-    return (
-        <>
-            <EmotionWrap isShadow={true}>
-                <EmotionContainer>
-                    <CardWrapper>
-                        <Header>
-                            <AvatarWrapper>
-                                <Avatar src="/images/avatar.png" />
-                                <Info>
-                                    <Writer>{props?.data?.fetchBoard?.writer}</Writer>
-                                    <CreatedAt>
-                                        {props?.data?.fetchBoard?.createdAt}
-                                    </CreatedAt>
-                                </Info>
-                            </AvatarWrapper>
-                        </Header>
-                        <Body>
-                            <Title>{props?.data?.fetchBoard?.title}</Title>
-                            <Contents>{props?.data?.fetchBoard?.contents}</Contents>
-                        </Body>
-                    </CardWrapper>
-                </EmotionContainer>
-            </EmotionWrap>
-            <EmotionWrap>
-                <BottomWrapper>
-                    <Button onClick={props.onMoveToBoardList}>목록으로</Button>
-                    <Button onClick={props.onMoveToBoardEdit}>수정하기</Button>
-                </BottomWrapper>
-            </EmotionWrap>
-        </>
-    );
+export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
+  return (
+    <>
+      <EmotionWrap isShadow={true}>
+        <EmotionContainer>
+          <CardWrapper>
+            <Header>
+              <AvatarWrapper>
+                <Avatar src="/images/avatar.png" />
+                <Info>
+                  <span>{props?.data?.fetchBoard?.writer}</span>
+                  <span>{formatCreatedAt(props?.data?.fetchBoard?.createdAt)}</span>
+                </Info>
+                <ToolTips>
+                  <img src="/images/link.svg" alt="" />
+                  <Tooltip
+                    title={
+                      <div>
+                        <p>{props?.data?.fetchBoard?.boardAddress?.address}</p>
+                        <p>{props?.data?.fetchBoard?.boardAddress?.addressDetail}</p>
+                      </div>
+                    }
+                  >
+                    <img src="/images/pin.svg" alt="" />
+                  </Tooltip>
+                </ToolTips>
+              </AvatarWrapper>
+            </Header>
+            <Body>
+              <Title>{props?.data?.fetchBoard?.title}</Title>
+              <Contents>{props?.data?.fetchBoard?.contents}</Contents>
+              {props?.data?.fetchBoard?.youtubeUrl !== "" && (
+                <YouTube>
+                  <ReactPlayer url={props?.data?.fetchBoard?.youtubeUrl ?? ""} width="486px" height="240px" />
+                </YouTube>
+              )}
+            </Body>
+          </CardWrapper>
+        </EmotionContainer>
+      </EmotionWrap>
+      <EmotionWrap>
+        <BottomWrapper>
+          <Button onClick={props.onMoveToBoardList}>목록으로</Button>
+          <Button onClick={props.onMoveToBoardEdit}>수정하기</Button>
+        </BottomWrapper>
+      </EmotionWrap>
+    </>
+  );
 }
