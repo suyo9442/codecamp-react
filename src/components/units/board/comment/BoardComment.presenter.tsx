@@ -24,7 +24,7 @@ import React from "react";
 
 export default function BoardCommentUI(props: IBoardCommentUIProps): JSX.Element {
   return (
-    <EmotionWrap isShadow={false}>
+    <EmotionWrap>
       <>
         <Title>
           <img src="/images/comment.svg" alt="comment" />

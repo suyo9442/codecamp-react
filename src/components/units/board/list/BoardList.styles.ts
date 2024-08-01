@@ -31,7 +31,7 @@ export const PaginationSec = styled.div`
     padding: 36px 0;
 `;
 export const Title = styled.div`
-    padding: 32px 0;
+    padding-bottom: 32px;
     display: flex;
     justify-content: center;
     font-size: 3.6rem;

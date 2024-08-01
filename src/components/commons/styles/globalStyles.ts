@@ -2,6 +2,7 @@ import {css} from "@emotion/react";
 
 export const globalStyles = css`
     :root {
+        --main: #FF7C83;
         --black: #000;
         --white: #fff;
         --disable: #F44336;

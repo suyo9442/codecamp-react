@@ -23,7 +23,7 @@ import DaumPostcodeEmbed from "react-daum-postcode";
 
 export default function BoardWriteUI(props: IBoardWriteUIProps): JSX.Element {
   return (
-    <EmotionWrap isShadow={true}>
+    <EmotionWrap>
       <EmotionContainer>
         <TitleSection>게시물 {props.isEdit ? "수정" : "등록"}</TitleSection>
         <ContentSection>

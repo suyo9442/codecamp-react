@@ -21,7 +21,7 @@ import { Tooltip } from "antd";
 export default function BoardDetailUI(props: IBoardDetailUIProps): JSX.Element {
   return (
     <>
-      <EmotionWrap isShadow={true}>
+      <EmotionWrap>
         <EmotionContainer>
           <CardWrapper>
             <Header>

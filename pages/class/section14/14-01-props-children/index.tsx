@@ -1,4 +1,4 @@
-import Example from "@/src/components/units/board/class/14-props-children-example";
+import Example from "@/src/components/units/class/14-props-children-example";
 
 export default function PropsChildrenPage() {
   return (

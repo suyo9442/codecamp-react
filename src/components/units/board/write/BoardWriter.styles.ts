@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import { type ICTButtonFilledProps } from "@/src/components/units/board/write/BoardWrite.types";
 
-export const EmotionWrap = styled.div<{ isShadow?: boolean }>`
-  //border: 1px solid red;
-  width: 1200px;
+export const LayoutMargin = styled.div`
+  margin-left: 160px;
+`
+export const EmotionWrap = styled.div`
   margin: 100px auto;
-  box-shadow: ${(props) => (props.isShadow === true ? "0 0 10px #CBCBCB" : "none")};
 `;
 export const EmotionContainer = styled.div`
   padding: 0 86px;
