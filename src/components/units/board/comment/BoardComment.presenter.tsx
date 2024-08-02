@@ -15,8 +15,8 @@ import {
   TextLen,
   Stars,
 } from "@/src/components/units/board/comment/BoardComment.styles";
-import CommentDeleteBtn from "@/src/components/commons/CommentDeleteBtn";
-import CommentEditBtn from "@/src/components/commons/CommentEditBtn";
+import CommentDeleteBtn from "@/src/components/units/commons/CommentDeleteBtn";
+import CommentEditBtn from "@/src/components/units/commons/CommentEditBtn";
 import { formatCreatedAt } from "@/src/commons/utils/FormatDate";
 import { type IBoardCommentUIProps } from "@/src/components/units/board/comment/BoardComment.types";
 import { Rate } from "antd";

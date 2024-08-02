@@ -10,14 +10,11 @@ import {
   BoardTd,
   BoardTh,
   BoardTr,
-  ButtonArrow,
   ButtonFilled,
   ButtonLike,
   ButtonOutlined,
   Date,
-  DateInput,
-  Pagination,
-  PaginationBox,
+  DateInput,PaginationBox,
   PaginationSec,
   Profile,
   SearchInput,
@@ -107,27 +104,7 @@ export default function BoardListUI(props: IBoardListUIProps): JSX.Element {
         </BoardsSec>
         <PaginationSec>
           <PaginationBox>
-            <ButtonArrow
-              arrow="left"
-              onClick={() => props.onPaginateNext("prev")}
-              style={props.pageOrder === 0 ? { display: "none" } : { display: "initial" }}
-            />
-            <Pagination>
-              {props.onCalcPagination(Number(props.count?.fetchBoardsCount), props.pageOrder)?.map((list) => (
-                <li
-                  key={list}
-                  className={list === props.pageNumber ? "active" : ""}
-                  onClick={() => props.setPageNumber(list)}
-                >
-                  <button>{list}</button>
-                </li>
-              ))}
-            </Pagination>
-            <ButtonArrow
-              arrow="right"
-              onClick={() => props.onPaginateNext("next")}
-              style={props.pageOrder === props.boardsCountArrLen ? { display: "none" } : { display: "initial" }}
-            />
+            {props.children}
           </PaginationBox>
           <ButtonOutlined onClick={props.onMoveToNewPage}>게시물 등록하기</ButtonOutlined>
         </PaginationSec>

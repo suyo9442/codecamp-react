@@ -143,11 +143,17 @@ export const PaginationBox = styled.div`
     align-items: center;
     margin-left: auto;
 `;
-export const Pagination = styled.ul`
+export const Paginations = styled.div`
     display: flex;
     font-size: 1.6rem;
 
-    li {
+    span {
+        display: inline-block;
+        margin: 10px;
+        
+        > button {
+            color: #8f8f8f;
+        }
         
         &.active > button {
             font-weight: 700;
@@ -155,6 +161,7 @@ export const Pagination = styled.ul`
         }
         &:hover > button {
             font-weight: 700;
+            color: var(--yellow-100);
         }
     }
     
