@@ -12,12 +12,13 @@ import {
   type IMyVariables,
 } from "@/src/components/units/board/write/BoardWrite.types";
 import { type IMutation, type IMutationCreateBoardArgs, type IMutationUpdateBoardArgs } from "@/src/commons/types/generated/type";
+import { type Address } from "react-daum-postcode";
 
 // const validKey: Array<keyof IValues> = ["writer", "password", "title", "description"];
 
 export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   const router = useRouter();
-  const { boardId = "" } = router.query;
+  const boardId = router.query?.boardId;
 
   const [createBoard] = useMutation<Pick<IMutation, "createBoard">, IMutationCreateBoardArgs>(CREATE_BOARD);
   const [updateBoard] = useMutation<Pick<IMutation, "updateBoard">, IMutationUpdateBoardArgs>(UPDATE_BOARDS);
@@ -41,9 +42,9 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
       },
     }));
   };
-  const onUploadBoard = async (isEdit: boolean): Promise<boolean> => {
+  const onUploadBoard = async (isEdit: boolean): Promise<void> => {
     // const checkValid = (): boolean => validKey.every((key) => values[key]?.value);
-    const moveToBoardDetail = async (_id: string): Promise<boolean> => {
+    const moveToBoardDetail = async (_id: string): Promise<void> => {
       if (_id === "") return;
       void router.push(`/boards/${_id}`);
     };
@@ -98,7 +99,7 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
         alert("실패");
       }
     } catch (err) {
-      alert(err.message);
+      if (err instanceof Error) alert(err.message);
     }
   };
 
@@ -110,17 +111,17 @@ export default function BoardWrite(props: IBoardWriteProps): JSX.Element {
   const onToggleModal = (): void => {
     setIsModalOpen((preVal) => !preVal);
   };
-  const onSetAddress = (data): void => {
+  const onSetAddress = (data: Address): void => {
     const { zonecode, address } = data;
-    setAddress((preVal) => ({
+    setAddress((preVal: IAddress) => ({
       ...preVal,
       zipcode: zonecode,
       address,
     }));
     onToggleModal();
   };
-  const onSetAddressDetail = (value): void => {
-    setAddress((preVal) => ({
+  const onSetAddressDetail = (value: string): void => {
+    setAddress((preVal: IAddress) => ({
       ...preVal,
       addressDetail: value,
     }));

@@ -1,9 +1,7 @@
 import { useRouter } from "next/router";
-import {useQuery } from "@apollo/client";
 import BoardListUI from "@/src/components/units/board/list/BoardList.presenter";
 import { useState } from "react";
-import { FETCH_BOARDS, FETCH_BOARDS_COUNT } from "@/src/components/units/board/list/BoardList.queries";
-import { type IQuery, type IQueryFetchBoardsArgs } from "@/src/commons/types/generated/type";
+import { type IQuery } from "@/src/commons/types/generated/type";
 
 interface IBoardListProps {
     data: Pick<IQuery, "fetchBoards">;

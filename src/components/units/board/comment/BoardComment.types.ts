@@ -1,41 +1,49 @@
-import { type IBoardComment } from "@/src/commons/types/generated/type";
-import { type ChangeEvent, type Dispatch, type SetStateAction } from "react";
+import { type IBoardComment, type IQuery } from "@/src/commons/types/generated/type";
+import type React from "react";
+import { type ChangeEvent } from "react";
 
-export interface IBoardCommentProps {
+export interface ICommentWriteProps {
+  boardId: string;
+  isEdit?: boolean;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
+  list?: IBoardComment;
+}
+
+export interface ICommentWriteUIProps {
+  values: IValues;
+  txtLen: number;
+  stars: number;
+  setStars: (value: ((prevState: number) => number) | number) => void;
+  onSetValues: (key: string, e: ChangeEvent<HTMLTextAreaElement> | ChangeEvent<HTMLInputElement>) => void;
+  onCreateBoardComment: () => Promise<void>;
+  onUpdateBoardComment: (id: string) => Promise<void>;
+  isEdit?: boolean;
+  setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
+  list: IBoardComment;
+}
+
+export interface ICommentListProps {
   boardId: string;
 }
 
-export interface IBoardCommentUIProps {
+export interface ICommentListUIProps {
   boardId: string;
-  comments: IComments[];
-  values: IValues;
-  stars: number;
-  txtLen: number;
-  editValue: IEditValue;
-  setValues: Dispatch<SetStateAction<IValues>>;
-  setStars: (value: ((prevState: number) => number) | number) => void;
-  onSetValues: (key: string, e: ChangeEvent<HTMLTextAreaElement>) => void;
-  onSetEditValue: (key: "contents" | "stars", value: string | number) => void;
-  onCreateBoardComment: () => Promise<void>;
-  onShowEditComment: (id: string, obj: IComments) => void;
-  onUpdateBoardComment: (id: string) => Promise<void>;
-  onDeleteBoardComment: (id: string) => Promise<void>;
-  PLACE_HOLDER: string;
-  TXT_MAX_LENGTH: number;
+  data: Pick<IQuery, "fetchBoardComments">;
+  onLoadMore: () => void;
+}
+
+export interface ICommentListItemProps {
+  boardId: string;
+  list: IBoardComment;
+  onLoadMore: () => void;
 }
 
 export interface IValues {
+  writer: string;
   password: string;
   contents: string;
 }
-export interface IEditValue {
-  contents: string;
-  stars: number;
-  txtLen: number;
-}
 
 export interface IComments extends IBoardComment {
-  isEdit: boolean;
-  stars: number[];
   txtLen: number;
 }

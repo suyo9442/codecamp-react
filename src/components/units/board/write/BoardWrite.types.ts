@@ -1,5 +1,6 @@
 import { type IQuery } from "@/src/commons/types/generated/type";
 import { type ChangeEvent } from "react";
+import { type Address } from "react-daum-postcode";
 
 // BoardWrite.container
 export interface IBoardWriteProps {
@@ -49,7 +50,7 @@ export interface IBoardWriteUIProps {
   onChangeValue: ChangeEventHandler;
   onUploadBoard: (isEdit: boolean) => void;
   onToggleModal: () => void;
-  onSetAddress: (data) => void;
+  onSetAddress: (data: Address) => void;
   onSetAddressDetail: (value: string) => void;
 }
 

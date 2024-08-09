@@ -14,8 +14,15 @@ export const InputSec = styled.div`
   width: 100%;
   padding: 24px 0;
 `;
-export const Stars = styled.div`
+export const StarsSec = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px 0;
+`;
+export const UpdateInfo = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 export const InputBox = styled.div`
   width: 100%;
@@ -28,7 +35,7 @@ export const TextArea = styled.textarea`
   border: 1px solid var(--grey-100);
   color: var(--grey-200);
   padding: 24px;
-  
+
   &::placeholder {
     color: var(--grey-100);
   }
@@ -57,7 +64,7 @@ export const CommentBox = styled.div`
   padding: 24px 0;
 `;
 export const Avatar = styled.div`
-  flex: 1;
+  flex: 2;
   img {
     width: 40px;
     height: 40px;
@@ -67,9 +74,9 @@ export const CommentContent = styled.div`
   flex: 22;
 `;
 export const ActionButtons = styled.div`
-  flex: 2;
+  flex: 3;
   text-align: right;
-  
+
   > button {
     padding: 8px;
   }

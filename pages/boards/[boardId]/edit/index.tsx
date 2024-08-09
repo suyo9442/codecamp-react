@@ -6,7 +6,8 @@ import { type IQuery, type IQueryFetchBoardArgs } from "@/src/commons/types/gene
 
 export default function BoardEditPage(): JSX.Element {
   const router = useRouter();
-  const { boardId = "" } = router.query;
+  const boardId = router.query?.boardId;
+  if (typeof boardId !== "string") return <></>;
 
   const { data } = useQuery<Pick<IQuery, "fetchBoard">, IQueryFetchBoardArgs>(FETCH_BOARD, {
     variables: {

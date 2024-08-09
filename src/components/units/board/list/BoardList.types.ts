@@ -1,5 +1,5 @@
 import { type IQuery } from "@/src/commons/types/generated/type";
-import { type ChangeEvent, type Dispatch, type SetStateAction } from "react"; import {ApolloQueryResult} from "@apollo/client";
+import { type ChangeEvent } from "react";
 
 // BoardList.presenter
 export interface ISrchDate {
