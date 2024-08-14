@@ -5,7 +5,7 @@ import {globalStyles} from "@/src/components/commons/styles/globalStyles";
 import {LayoutMargin} from "@/src/components/units/board/write/BoardWriter.styles";
 import MyLayout from "@/src/components/commons/layout";
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+function MyApp({ Component }: AppProps): JSX.Element {
     return (
         <ApolloSetting>
             <>

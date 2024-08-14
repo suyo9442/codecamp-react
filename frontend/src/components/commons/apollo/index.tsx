@@ -5,6 +5,8 @@ interface IApolloSettingProps {
     children: JSX.Element
 }
 
+const GLOBAL_STATE = new InMemoryCache();
+
 export default function ApolloSetting(props: IApolloSettingProps): JSX.Element {
 	const uploadLink = createUploadLink({
 		uri: "http://backend-practice.codebootcamp.co.kr/graphql"
@@ -15,7 +17,7 @@ export default function ApolloSetting(props: IApolloSettingProps): JSX.Element {
   const client = new ApolloClient({
       // uri: "http://backend09.codebootcamp.co.kr/graphql",
       uri: "http://backend-practice.codebootcamp.co.kr/graphql",
-      cache: new InMemoryCache(),
+      cache: GLOBAL_STATE,
       link: ApolloLink.from([uploadLink])
   })
 
