@@ -1,0 +1,21 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "qqq": "ts-node index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@apollo/server": "^4.11.0",
+    "graphql": "^16.9.0",
+    "pg": "^8.9.0",
+    "ts-node": "^10.9.1",
+    "typeorm": "^0.3.11"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.5"
+  }
+}
